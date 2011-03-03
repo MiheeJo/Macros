@@ -32,8 +32,8 @@ int main(void) {
     for (int i=0; i<nbins; i++) {
       ds->get(i);
       tx[i] = eta->getVal();
-      txhi[i] = eff->getErrorHi();
-      txlo[i] = eff->getErrorLo(); 
+      txhi[i] = eta->getErrorHi();
+      txlo[i] = eta->getErrorLo(); 
       ty[i] = eff->getVal();
       tyhi[i] = eff->getErrorHi();
       tylo[i] = eff->getErrorLo(); 
