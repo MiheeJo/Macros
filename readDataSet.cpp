@@ -25,23 +25,27 @@ int main(void) {
     RooRealVar *eta = (RooRealVar*)argset->find("eta");
     RooRealVar *eff = (RooRealVar*)argset->find("efficiency");
 
-    // Fill TGraphAsymmErrors
     const int nbins = eta->getBinning().numBins();
     const double *x = eta->getBinning().array();
-    double ty[nbins], tyhi[nbins], tylo[nbins];
+    double tx[nbins], txhi[nbins], txlo[nbins], ty[nbins], tyhi[nbins], tylo[nbins];
 
     for (int i=0; i<nbins; i++) {
       ds->get(i);
+      tx[i] = eta->getVal();
+      txhi[i] = eff->getErrorHi();
+      txlo[i] = eff->getErrorLo(); 
       ty[i] = eff->getVal();
       tyhi[i] = eff->getErrorHi();
       tylo[i] = eff->getErrorLo(); 
     }
 
+    const double *x = tx; 
     const double *y = ty; 
     const double *yhi = tyhi;
     const double *ylo = tylo;
 
-    TGraphAsymmErrors *graph = new TGraphAsymmErrors(nbins,x,y,0,0,ylo,yhi);
+    // Fill TGraphAsymmErrors
+    TGraphAsymmErrors *graph = new TGraphAsymmErrors(nbins,x,y,xlo,xhi,ylo,yhi);
     graph->Draw("apz");
 
     // Fill histogram
