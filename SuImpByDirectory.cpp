@@ -60,10 +60,10 @@ int SuImpByDirectory(string sampleName="ZEEMM_HI", string verName="8_0_0_pre1", 
       if (referobj)
       {
         gStyle->SetPadRightMargin(0.05);
-			  TPad *pad1 = new TPad("pad1", "pad1", 0, 0.3, 1, 1.0);
-				pad1->SetBottomMargin(0); // Upper and lower plot are joined
-				pad1->Draw();             
-				pad1->cd();               
+        TPad *pad1 = new TPad("pad1", "pad1", 0, 0.3, 1, 1.0);
+        pad1->SetBottomMargin(0); // Upper and lower plot are joined
+        pad1->Draw();             
+        pad1->cd();               
         
         TH1 *hr1 = (TH1*)referobj;
         double max = 0;
@@ -109,56 +109,56 @@ int SuImpByDirectory(string sampleName="ZEEMM_HI", string verName="8_0_0_pre1", 
         txt2.DrawTextNDC(0.2,0.80,refName.c_str());
         gPad->Update();
       
-				// Do not draw the Y axis label on the upper plot and redraw a small
-				// axis instead, in order to avoid the first label (0) to be clipped.
-				//h1->GetYaxis()->SetLabelSize(0.);
-				//TGaxis *axis = new TGaxis( -5, 20, -5, 220, 20,220,510,"");
-				//axis->SetLabelFont(43); // Absolute font size in pixel (precision 3)
-				//axis->SetLabelSize(15);
-				//axis->Draw();
-				 
-   			//// ratio plot in the bottom pad
-   			canv->cd();          // Go back to the main canvas before defining pad2
-   			TPad *pad2 = new TPad("pad2", "pad2", 0, 0.05, 1, 0.3);
-   			pad2->SetTopMargin(0);
-		   	pad2->SetBottomMargin(0.2);
-   			pad2->Draw();
-   			pad2->cd();
+        // Do not draw the Y axis label on the upper plot and redraw a small
+        // axis instead, in order to avoid the first label (0) to be clipped.
+        //h1->GetYaxis()->SetLabelSize(0.);
+        //TGaxis *axis = new TGaxis( -5, 20, -5, 220, 20,220,510,"");
+        //axis->SetLabelFont(43); // Absolute font size in pixel (precision 3)
+        //axis->SetLabelSize(15);
+        //axis->Draw();
+         
+        //// ratio plot in the bottom pad
+        canv->cd();          // Go back to the main canvas before defining pad2
+        TPad *pad2 = new TPad("pad2", "pad2", 0, 0.05, 1, 0.3);
+        pad2->SetTopMargin(0);
+        pad2->SetBottomMargin(0.2);
+        pad2->Draw();
+        pad2->cd();
 
-		   	// Define the ratio plot
-  		 	TH1F *h3 = (TH1F*)h1->Clone("h3");
-  		 	h3->SetLineColor(kBlack);
-  		 	h3->SetMarkerColor(kBlack);
-		   	h3->SetMinimum(0.5);
-  		 	h3->SetMaximum(1.5);
-				h3->Sumw2();
-   			h3->SetStats(0);
-   			h3->Divide(hr1);
-   			h3->SetMarkerStyle(21);
-   			h3->Draw("ep");
-   			h3->SetTitle("");
+        // Define the ratio plot
+        TH1F *h3 = (TH1F*)h1->Clone("h3");
+        h3->SetLineColor(kBlack);
+        h3->SetMarkerColor(kBlack);
+        h3->SetMinimum(0.5);
+        h3->SetMaximum(1.5);
+        h3->Sumw2();
+        h3->SetStats(0);
+        h3->Divide(hr1);
+        h3->SetMarkerStyle(21);
+        h3->Draw("ep");
+        h3->SetTitle("");
         double xmin = h3->GetBinLowEdge(1);
         double xmax = h3->GetBinLowEdge(h3->GetNbinsX()+1);
         lineRatio->DrawLine(xmin,1,xmax,1);
    
-	 			// Y axis ratio plot settings
-   			//h3->GetYaxis()->SetTitle(Form("ratio [%s]/[%s]",verName.c_str(),refName.c_str()));
-   			h3->GetYaxis()->SetTitle(Form("[%s]/[%s]",verName.c_str(),refName.c_str()));
-   			h3->GetYaxis()->SetNdivisions(505);
-   			//h3->GetYaxis()->SetTitleSize(20);
-   			h3->GetYaxis()->SetTitleSize(18);
-   			h3->GetYaxis()->SetTitleFont(43);
-   			h3->GetYaxis()->SetTitleOffset(1.55);
-   			h3->GetYaxis()->SetLabelFont(43); // Absolute font size in pixel (precision 3)
-   			h3->GetYaxis()->SetLabelSize(20);
-		   	// X axis ratio plot settings
- 	 	 		h3->GetXaxis()->SetTitleSize(20);
- 	  		h3->GetXaxis()->SetTitleFont(43);
-   			h3->GetXaxis()->SetTitleOffset(4.);
-   			h3->GetXaxis()->SetLabelFont(43); // Absolute font size in pixel (precision 3)
-   			h3->GetXaxis()->SetLabelSize(20);
+        // Y axis ratio plot settings
+        //h3->GetYaxis()->SetTitle(Form("ratio [%s]/[%s]",verName.c_str(),refName.c_str()));
+        h3->GetYaxis()->SetTitle(Form("[%s]/[%s]",verName.c_str(),refName.c_str()));
+        h3->GetYaxis()->SetNdivisions(505);
+        //h3->GetYaxis()->SetTitleSize(20);
+        h3->GetYaxis()->SetTitleSize(18);
+        h3->GetYaxis()->SetTitleFont(43);
+        h3->GetYaxis()->SetTitleOffset(1.55);
+        h3->GetYaxis()->SetLabelFont(43); // Absolute font size in pixel (precision 3)
+        h3->GetYaxis()->SetLabelSize(20);
+        // X axis ratio plot settings
+        h3->GetXaxis()->SetTitleSize(20);
+        h3->GetXaxis()->SetTitleFont(43);
+        h3->GetXaxis()->SetTitleOffset(4.);
+        h3->GetXaxis()->SetLabelFont(43); // Absolute font size in pixel (precision 3)
+        h3->GetXaxis()->SetLabelSize(20);
         
-				canv->SaveAs(Form("%s/%s/%s_vs_%s_%s.png",verName.c_str(),sampleName.c_str(),verName.c_str(),refName.c_str(),h1->GetName()));
+        canv->SaveAs(Form("%s/%s/%s_vs_%s_%s.png",verName.c_str(),sampleName.c_str(),verName.c_str(),refName.c_str(),h1->GetName()));
         canv->Clear();
         delete h1;
         delete hr1;
