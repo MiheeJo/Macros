@@ -1,25 +1,28 @@
 //int colorArr[] = {kRed+1, kOrange+7, kSpring+4, kGreen+3, kAzure+1, kBlue+2, kViolet+5, kViolet-4, kMagenta, kMagenta+2};
-int colorArr[] = {kRed+1, kSpring+4, kAzure+1, kBlue+2, kMagenta, kMagenta+2};
-int markerArr[] = {kOpenCircle, kOpenSquare, kOpenStar, kOpenTriangleUp, kOpenDiamond, kOpenCross};
+int colorArr[] = {kRed+1, kGreen+3, kBlue+2, kMagenta, kMagenta+2};
+//int markerArr[] = {kOpenCircle, kOpenSquare, kOpenStar, kOpenTriangleUp, kOpenDiamond, kOpenCross};
+int markerArr[] = {kOpenCircle, kFullCircle, kOpenSquare, kFullSquare, kOpenDiamond, kFullDiamond, kOpenCross, kFullCross};
 int ncolor = sizeof(colorArr)/sizeof(int);
 int nmarker = sizeof(markerArr)/sizeof(int);
 
 void SetHistStyleDefault(TH1 *h, int i, int j) {
-  h->SetMarkerSize(1.200);
-  if (j == 2 || j ==4) h->SetMarkerSize(1.800);
-  if (j == 5) h->SetMarkerSize(1.500);
+//  if (j == kOpenStar || j == kFullStar || j ==kOpenDiamond || j ==kFullDiamond) h->SetMarkerSize(2.000);
+//  else if (j == kOpenCross || j == kFullCross) h->SetMarkerSize(1.600);
+  if (j>4 && j<6) h->SetMarkerSize(1.800);
+  else if (j>=6) h->SetMarkerSize(1.500);
+  else h->SetMarkerSize(1.200);
 
   if (ncolor>i) {
     h->SetMarkerColor(colorArr[i]);
     h->SetLineColor(colorArr[i]);
   } else {
-    h->SetMarkerColor(kBlack);
-    h->SetLineColor(kBlack);
+    h->SetMarkerColor(colorArr[i%ncolor]);
+    h->SetLineColor(colorArr[i%ncolor]);
   }
   if (nmarker>j) {
     h->SetMarkerStyle(markerArr[j]);
   } else {
-    h->SetMarkerStyle(20+j);
+    h->SetMarkerStyle(markerArr[j%nmarker]);
   }
 
   h->GetXaxis()->SetTitleSize(0.048);
@@ -29,21 +32,21 @@ void SetHistStyleDefault(TH1 *h, int i, int j) {
 }
 
 void SetHistStyleDefault(TGraph *h, int i, int j) {
-  h->SetMarkerSize(1.200);
-  if (j == 2 || j ==4) h->SetMarkerSize(1.800);
-  if (j == 5) h->SetMarkerSize(1.500);
+  if (j == kOpenStar || j == kFullStar || j ==kOpenDiamond || j ==kFullDiamond) h->SetMarkerSize(2.000);
+  else if (j == kOpenCross || j == kFullCross) h->SetMarkerSize(1.600);
+  else h->SetMarkerSize(1.200);
 
   if (ncolor>i) {
     h->SetMarkerColor(colorArr[i]);
     h->SetLineColor(colorArr[i]);
   } else {
-    h->SetMarkerColor(kBlack);
-    h->SetLineColor(kBlack);
+    h->SetMarkerColor(colorArr[i%ncolor]);
+    h->SetLineColor(colorArr[i%ncolor]);
   }
   if (nmarker>j) {
     h->SetMarkerStyle(markerArr[j]);
   } else {
-    h->SetMarkerStyle(20+j);
+    h->SetMarkerStyle(markerArr[j%nmarker]);
   }
 
   h->GetXaxis()->SetTitleSize(0.048);
@@ -70,12 +73,25 @@ void SetLegendStyle(TLegend* l) {
   l->SetMargin(0.15);
 }
 
-void SetStatBox(TPaveText *p, double x1, double x2, double y1, double y2, int color) {
+void SetStatBox(TPaveStats *p, double x1, double y1, double x2, double y2, int color) {
   p->SetX1NDC(x1);
   p->SetX2NDC(x2);
   p->SetY1NDC(y1);
   p->SetY2NDC(y2);
-  p->SetTextColor(colorArr[color]);
+  p->SetTextColor(color);
   p->SetTextSize(0.035);
+  p->SetTextFont(42);
   p->SetBorderSize(0);
 }
+void SetStatBox(TPaveText *p, double x1, double y1, double x2, double y2, int color) {
+  p->SetX1NDC(x1);
+  p->SetX2NDC(x2);
+  p->SetY1NDC(y1);
+  p->SetY2NDC(y2);
+  p->SetTextColor(color);
+  p->SetTextSize(0.035);
+  p->SetTextFont(42);
+  p->SetBorderSize(0);
+}
+
+
